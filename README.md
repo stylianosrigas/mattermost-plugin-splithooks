@@ -17,7 +17,5 @@ Next, to configure the plugin, follow these steps:
 9. Go to your Split.io account, paste the following webhook URL and specify the token you copied in step 8.
 
 ```
-
 https://SITEURL/plugins/splithooks/webhook&token=TOKEN
-
 ```
