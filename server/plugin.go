@@ -108,7 +108,7 @@ func (p *Plugin) IsValid(configuration *configuration) error {
 }
 
 func (p *Plugin) postHTTPDebugMessage(errorMessage string) {
-	p.API.LogDebug("Failed to serve HTTP request", "Error message", errorMessage)
+	fmt.Printf("failed to serve HTTP request, error message %v", errorMessage)
 }
 
 func (p *Plugin) ensureBotExists() error {
