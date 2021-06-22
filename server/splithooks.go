@@ -18,7 +18,7 @@ type SplitHooksNotification struct {
 	Previous        *SplitHooksNotification `json:"previous,omitempty"`
 }
 
-func (o *SplitHooksNotification) ToJson() string {
+func (o *SplitHooksNotification) ToJSON() string {
 	b, _ := json.Marshal(o)
 	return string(b)
 }

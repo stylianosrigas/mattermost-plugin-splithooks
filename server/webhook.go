@@ -21,7 +21,7 @@ func (p *Plugin) handleWebhook(body io.Reader, channelID, userID string) {
 		p.postHTTPDebugMessage(err.Error())
 		return
 	}
-	p.API.LogInfo("Message to improve splithooks", "msg=", s.ToJson())
+	p.API.LogInfo("Message to improve splithooks", "msg=", s.ToJSON())
 
 	environmentNames := strings.Split(p.configuration.EnvironmentNames, ",")
 

@@ -46,7 +46,7 @@ func (p *Plugin) OnActivate() error {
 	}
 
 	channel, err := p.API.GetChannelByName(team.Id, p.configuration.Channel, false)
-	if err != nil && err.StatusCode == http.StatusNotFound {
+	if err != nil && err.StatusCode == http.StatusNotFound { //nolint
 		channelToCreate := &model.Channel{
 			Name:        p.configuration.Channel,
 			DisplayName: p.configuration.Channel,
@@ -56,7 +56,7 @@ func (p *Plugin) OnActivate() error {
 		}
 
 		newChannel, errChannel := p.API.CreateChannel(channelToCreate)
-		if err != nil {
+		if errChannel != nil {
 			return errChannel
 		}
 		p.ChannelID = newChannel.Id
@@ -70,7 +70,6 @@ func (p *Plugin) OnActivate() error {
 }
 
 func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
-
 	switch r.URL.Path {
 	case "/webhook":
 		token := r.URL.Query().Get("token")
@@ -90,19 +89,19 @@ func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Req
 
 func (p *Plugin) IsValid(configuration *configuration) error {
 	if configuration.Team == "" {
-		return fmt.Errorf("Must set a Team.")
+		return fmt.Errorf("must set a Team")
 	}
 
 	if configuration.Channel == "" {
-		return fmt.Errorf("Must set a Channel.")
+		return fmt.Errorf("must set a Channel")
 	}
 
 	if configuration.EnvironmentNames == "" {
-		return fmt.Errorf("Must set an Environment Name.")
+		return fmt.Errorf("must set an Environment Name")
 	}
 
 	if configuration.Token == "" {
-		return fmt.Errorf("Must set a Token.")
+		return fmt.Errorf("must set a Token")
 	}
 
 	return nil
