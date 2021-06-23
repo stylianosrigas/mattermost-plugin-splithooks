@@ -9,12 +9,7 @@ import (
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 
-const (
-	splitHooksIconURL  = "https://d25hn4jiqx5f7l.cloudfront.net/companies/logos/original/split-io_1532363931.png"
-	splitHooksUsername = "SplitHooks Bot"
-)
-
-func (p *Plugin) handleWebhook(body io.Reader, channelID, userID string) {
+func (p *Plugin) handleWebhook(body io.Reader) {
 	p.API.LogInfo("Received Split.io notification")
 	var s *SplitHooksNotification
 	if err := json.NewDecoder(body).Decode(&s); err != nil {
@@ -28,29 +23,24 @@ func (p *Plugin) handleWebhook(body io.Reader, channelID, userID string) {
 	for _, environmentName := range environmentNames {
 		if environmentName == s.EnvironmentName {
 			attachment := &model.SlackAttachment{
-				Title: fmt.Sprintf("This is a Split.io notification for %s", s.Name),
+				Title: fmt.Sprintf("Split.io notification for %s in %s environment", s.Name, s.EnvironmentName),
 				Fields: []*model.SlackAttachmentField{
-					{Title: "Name", Value: s.Name, Short: false},
-					{Title: "Type", Value: s.Type, Short: false},
-					{Title: "Change Number", Value: s.ChangeNumber, Short: false},
-					{Title: "Time", Value: s.Time, Short: false},
+					{Title: "Name", Value: s.Name, Short: true},
+					{Title: "Type", Value: s.Type, Short: true},
+					{Title: "Change Number", Value: s.ChangeNumber, Short: true},
+					{Title: "Time", Value: s.Time, Short: true},
+					{Title: "EnvironmentName", Value: s.EnvironmentName, Short: true},
+					{Title: "SchemaVersion", Value: s.SchemaVersion, Short: true},
 					{Title: "Definition", Value: s.Definition, Short: false},
-					{Title: "Description", Value: s.Description, Short: false},
 					{Title: "Link", Value: s.Link, Short: false},
-					{Title: "EnvironmentName", Value: s.EnvironmentName, Short: false},
 					{Title: "Editor", Value: s.Editor, Short: false},
-					{Title: "SchemaVersion", Value: s.SchemaVersion, Short: false},
+					{Title: "Description", Value: s.Description, Short: false},
 				},
 			}
 
 			post := &model.Post{
-				ChannelId: channelID,
-				UserId:    userID,
-				Props: map[string]interface{}{
-					"from_webhook":      "true",
-					"override_username": splitHooksUsername,
-					"override_icon_url": splitHooksIconURL,
-				},
+				ChannelId: p.ChannelID,
+				UserId:    p.BotUserID,
 			}
 
 			model.ParseSlackAttachment(post, []*model.SlackAttachment{attachment})

@@ -76,11 +76,11 @@ func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Req
 		if token == "" || strings.Compare(token, p.configuration.Token) != 0 {
 			errorMessage := "Invalid or missing token"
 			p.postHTTPDebugMessage(errorMessage)
-			http.Error(w, errorMessage, http.StatusBadRequest)
+			http.Error(w, errorMessage, http.StatusForbidden)
 			return
 		}
 
-		p.handleWebhook(r.Body, p.ChannelID, p.BotUserID)
+		p.handleWebhook(r.Body)
 	default:
 		p.postHTTPDebugMessage("Invalid URL path")
 		http.NotFound(w, r)
@@ -131,11 +131,11 @@ func (p *Plugin) ensureBotExists() error {
 			return err
 		}
 
-		// // Give it a profile picture
-		// err = p.API.SetProfileImage(bot.UserId, plitHookBotImage)
-		// if err != nil {
-		// 	p.API.LogError("Failed to set profile image for bot", "err", err)
-		// }
+		// Give it a profile picture
+		err = p.API.SetProfileImage(bot.UserId, profileImage)
+		if err != nil {
+			p.API.LogError("Failed to set profile image for bot", "err", err)
+		}
 
 		p.API.LogDebug("Bot created for SplitHooks plugin")
 

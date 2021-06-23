@@ -18,7 +18,7 @@
     },
     "settings_schema": {
         "header": "",
-        "footer": "Use this webhook URL to set up the Split.io integration.\n\n`https://SITEURL/plugins/splithooks/webhook&token=TOKEN`",
+        "footer": "Use this webhook URL to set up the Split.io integration.\n\n`https://SITEURL/plugins/com.mattermost.plugin-splithooks/webhook&token=TOKEN`",
         "settings": [{
             "key": "Team",
             "display_name": "Team:",
@@ -41,7 +41,7 @@
             "key": "EnvironmentNames",
             "display_name": "EnvironmentNames:",
             "type": "text",
-            "help_text": "The Split.io environment names to get notifications for. Can be comma separated string. If empty all environment names will be sending notifications."
+            "help_text": "The Split.io environment names to get notifications for. Can be comma separated string."
         }]
     }
 }
