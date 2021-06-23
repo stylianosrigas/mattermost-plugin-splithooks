@@ -1,11 +1,11 @@
 {
-    "id": "com.mattermost.plugin-starter-template",
-    "name": "Plugin Starter Template",
-    "description": "This plugin serves as a starting point for writing a Mattermost plugin.",
-    "homepage_url": "https://github.com/mattermost/mattermost-plugin-starter-template",
-    "support_url": "https://github.com/mattermost/mattermost-plugin-starter-template/issues",
-    "release_notes_url": "https://github.com/mattermost/mattermost-plugin-starter-template/releases/tag/v0.1.0",
-    "icon_path": "assets/starter-template-icon.svg",
+    "id": "com.mattermost.plugin-splithooks",
+    "name": "SplitHooks",
+    "description": "This plugin sends Split.io notifications to a Mattermost channel.",
+    "homepage_url": "https://github.com/stylianosrigas/mattermost-plugin-splithooks",
+    "support_url": "https://github.com/stylianosrigas/mattermost-plugin-splithooks/issues",
+    "release_notes_url": "https://github.com/mattermost/mattermost-plugin-splithooks/releases/tag/v0.1.0",
+    "icon_path": "assets/split-logo.png",
     "version": "0.1.0",
     "min_server_version": "5.12.0",
     "server": {
@@ -16,12 +16,32 @@
             "windows-amd64": "server/dist/plugin-windows-amd64.exe"
         }
     },
-    "webapp": {
-        "bundle_path": "webapp/dist/main.js"
-    },
     "settings_schema": {
         "header": "",
-        "footer": "",
-        "settings": []
+        "footer": "Use this webhook URL to set up the Split.io integration.\n\n`https://SITEURL/plugins/com.mattermost.plugin-splithooks/webhook&token=TOKEN`",
+        "settings": [{
+            "key": "Team",
+            "display_name": "Team:",
+            "type": "text",
+            "help_text": "Team you want to send messages to. Use team URL, instead of a display name."
+        },
+        {
+            "key": "Channel",
+            "display_name": "Channel:",
+            "type": "text",
+            "help_text": "Channel you want to send messages to. Use channel URL such as 'town-square', instead of a display name. If you specify a channel that does not exist, this plugin creates a new channel with that name."
+        },
+        {
+            "key": "Token",
+            "display_name": "Token:",
+            "type": "generated",
+            "help_text": "The token used to configure the webhook for Split.io. The token is validates for each webhook request by the Mattermost server."
+        },
+        {
+            "key": "EnvironmentNames",
+            "display_name": "EnvironmentNames:",
+            "type": "text",
+            "help_text": "The Split.io environment names to get notifications for. Can be comma separated string."
+        }]
     }
 }
